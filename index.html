@@ -1345,7 +1345,7 @@ function buildIbiHeatmap() {
   rows.forEach((r,i) => {
     const pct = (r.tons/total*100).toFixed(1);
     const border = i < rows.length-1 ? '1px solid rgba(0,0,0,0.06)' : 'none';
-    tbody.innerHTML += `<tr>
+    tbody.innerHTML += `<tr style="transition:background .15s" onmouseover="this.style.background='rgba(0,0,0,0.025)'" onmouseout="this.style.background='transparent'">
       <td style="padding:12px 16px;border-bottom:${border};min-width:160px">
         <span style="background:${r.chipBg};color:${r.chipColor};font-size:11px;font-weight:400;padding:2px 10px;border-radius:20px;white-space:nowrap">${r.dest}</span>
       </td>
