@@ -1412,7 +1412,7 @@ new Chart(document.getElementById('chartIbiStatus'), {
   </div>
 
   <!-- Card preto de destaque -->
-  <div style="background:#222222;border-radius:var(--radius);padding:40px 48px;margin-bottom:40px">
+  <div style="background:#222222;border-radius:var(--radius);padding:40px 48px;margin-bottom:40px;transition:transform .15s,box-shadow .15s;cursor:default" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(0,0,0,0.25)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
     <div style="font-size:11px;font-weight:600;letter-spacing:.1em;color:#FFBA86;margin-bottom:20px;text-transform:uppercase">● Resultado do semestre</div>
     <div style="font-family:'Libre Caslon Text',serif;font-size:32px;line-height:1.25;color:#fff;margin-bottom:16px">Em 6 meses, os 7 parques da Urbia desviaram 3.010 toneladas de aterro.</div>
     <div style="font-size:14px;line-height:1.7;color:rgba(255,255,255,0.6);max-width:680px">A rastreabilidade está consolidada. O próximo passo é ampliar a taxa de reciclagem — hoje em 1,6% — e acelerar a transição de coletas sob demanda para recorrentes nos parques fora do Ibirapuera.</div>
@@ -1441,16 +1441,8 @@ new Chart(document.getElementById('chartIbiStatus'), {
     <div class="insight-card">
       <div style="font-size:12px;font-weight:600;color:#b35a00;flex-shrink:0;padding-top:3px;width:20px">03</div>
       <div style="flex:1">
-        <div style="font-family:'Libre Caslon Text',serif;font-size:15px;line-height:1.35;color:#222;margin-bottom:6px">Waste not found concentrado no Horto — sinal de desalinhamento de agendamento</div>
-        <div style="font-size:12px;line-height:1.65;color:#666">41 das 98 falhas do semestre têm como motivo "resíduo não encontrado no local". Esse padrão, concentrado no Horto Florestal, indica que a geração do parque e o agendamento de coleta não estão sincronizados. Não é falha do transportador — é um problema de planejamento que pode ser resolvido com ajuste de frequência e horário.</div>
-      </div>
-    </div>
-
-    <div class="insight-card">
-      <div style="font-size:12px;font-weight:600;color:#b35a00;flex-shrink:0;padding-top:3px;width:20px">04</div>
-      <div style="flex:1">
-        <div style="font-family:'Libre Caslon Text',serif;font-size:15px;line-height:1.35;color:#222;margin-bottom:6px">Compostagem forte — reciclagem seca ainda represada</div>
-        <div style="font-size:12px;line-height:1.65;color:#666">61% do volume já vai para compostagem — Cascas de Coco e Podas têm destinação nobre e rastreável. O gargalo está nos recicláveis secos: apenas 48,9 ton foram para reciclagem enquanto 617 ton viraram rejeito. Parte desse rejeito são recicláveis que não foram separados na fonte. A triagem na fonte é o passo que transforma rejeito em recurso.</div>
+        <div style="font-family:'Libre Caslon Text',serif;font-size:15px;line-height:1.35;color:#222;margin-bottom:6px">Segunda e terça lideram — a operação segue o ritmo do fim de semana</div>
+        <div style="font-size:12px;line-height:1.65;color:#666">Fim de semana é pico de visitantes, resíduo acumula, coleta acontece na segunda e terça. Cascas de Coco confirmam: segunda lidera com 28 coletas, reflexo do domingo. Sexta surpreende com 100 coletas — a operação antecipa o fim de semana. Quarta surpreende sendo o 4º principal dia e indica alta movimentação no parque no início da semana.</div>
       </div>
     </div>
 
@@ -1471,8 +1463,8 @@ new Chart(document.getElementById('chartIbiStatus'), {
     <div class="insight-card">
       <div style="font-size:12px;font-weight:600;color:#b35a00;flex-shrink:0;padding-top:3px;width:20px">02</div>
       <div style="flex:1">
-        <div style="font-family:'Libre Caslon Text',serif;font-size:15px;line-height:1.35;color:#222;margin-bottom:6px">Expandir coletas recorrentes para Horto Florestal e Jacintho Alberto</div>
-        <div style="font-size:12px;line-height:1.65;color:#666">Com 136 ton no semestre, o Horto Florestal tem volume suficiente para justificar frequência recorrente. Jacintho Alberto, com 25,6 ton, também é candidato. Coletas recorrentes reduzem o risco de "waste not found", facilitam o planejamento dos transportadores e tendem a diminuir custo operacional por tonelada.</div>
+        <div style="font-family:'Libre Caslon Text',serif;font-size:15px;line-height:1.35;color:#222;margin-bottom:6px">Fechar o ciclo no Ibirapuera — do resíduo ao adubo</div>
+        <div style="font-size:12px;line-height:1.65;color:#666">1.852 toneladas de orgânicos foram para compostagem no semestre. Parte desse composto poderia retornar ao próprio Ibirapuera como adubo — fechando a circularidade dentro do parque. Resíduo gerado no parque, processado, e devolvido como insumo para o solo. É o próximo nível da operação.</div>
       </div>
     </div>
 
@@ -1502,8 +1494,8 @@ new Chart(document.getElementById('chartIbiStatus'), {
     <div class="insight-card">
       <div style="font-size:12px;font-weight:600;color:#b35a00;flex-shrink:0;padding-top:3px;width:20px">02</div>
       <div style="flex:1">
-        <div style="font-family:'Libre Caslon Text',serif;font-size:15px;line-height:1.35;color:#222;margin-bottom:6px">Calendário de eventos por parque</div>
-        <div style="font-size:12px;line-height:1.65;color:#666">Eventos no Ibirapuera geram picos de resíduo previsíveis. Cruzar o calendário de eventos com o histórico de coletas permite antecipar demanda, pré-alocar transportadores e reduzir falhas por volume inesperado. </div>
+        <div style="font-family:'Libre Caslon Text',serif;font-size:15px;line-height:1.35;color:#222;margin-bottom:6px">Calendário de eventos e podas por parque</div>
+        <div style="font-size:12px;line-height:1.65;color:#666">Eventos no Ibirapuera geram picos de resíduo previsíveis. Podas respondem por 22% do volume e têm sazonalidade clara — pico em dez/25 e jan/26. Com esses dois calendários, conseguimos antecipar demanda, pré-alocar transportadores e reduzir coletas sob demanda. Menos surpresa operacional, menor custo por tonelada.</div>
       </div>
     </div>
 
