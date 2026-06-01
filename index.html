@@ -407,7 +407,7 @@ body { font-family: var(--sans); background: var(--bg); color: var(--text); min-
     <div class="kpi-card">
       <div class="kpi-label">Taxa de Sucesso</div>
       <div class="kpi-value">91<span class="kpi-unit">%</span></div>
-      <div class="kpi-sub">98 falhas no período</div>
+      <div class="kpi-sub">73% das falhas no Horto</div>
     </div>
   </div>
 
@@ -1247,6 +1247,7 @@ function buildIbiDiaSemana() {
   ];
   const maxC = 112, maxCo = 28;
   const c = document.getElementById('ibiDiaSemana');
+  c.innerHTML = '';
   data.forEach((d, i) => {
     const pC  = (d.coletas / maxC  * 100).toFixed(1);
     const pCo = (d.coco    / maxCo * 100).toFixed(1);
@@ -1456,7 +1457,7 @@ new Chart(document.getElementById('chartIbiStatus'), {
       <div style="font-size:12px;font-weight:600;color:#b35a00;flex-shrink:0;padding-top:3px;width:20px">01</div>
       <div style="flex:1">
         <div style="font-family:'Libre Caslon Text',serif;font-size:15px;line-height:1.35;color:#222;margin-bottom:6px">Sincronizar agendamento de coleta com geração no Horto Florestal</div>
-        <div style="font-size:12px;line-height:1.65;color:#666">O diagnóstico é claro: as coletas chegam quando o resíduo ainda não foi gerado ou já foi recolhido por outro meio. Recomendamos mapear os picos de geração por dia da semana no Horto — assim como fizemos no Ibirapuera — e ajustar os horários de agendamento. A meta é reduzir "waste not found" para zero em 90 dias.</div>
+        <div style="font-size:12px;line-height:1.65;color:#666">O Horto Florestal puxa a taxa de sucesso da operação de 96% para 91%. A causa é concentrada: 72 falhas, todas por resíduo não encontrado. As coletas chegam antes do resíduo ser gerado. Mapear os picos de geração por dia da semana — como fizemos no Ibirapuera — e ajustar os horários é o caminho direto para zerar esse número.</div>
       </div>
     </div>
 
@@ -1471,8 +1472,8 @@ new Chart(document.getElementById('chartIbiStatus'), {
     <div class="insight-card">
       <div style="font-size:12px;font-weight:600;color:#b35a00;flex-shrink:0;padding-top:3px;width:20px">03</div>
       <div style="flex:1">
-        <div style="font-family:'Libre Caslon Text',serif;font-size:15px;line-height:1.35;color:#222;margin-bottom:6px">Ativar segregação de recicláveis secos no Ibirapuera</div>
-        <div style="font-size:12px;line-height:1.65;color:#666">Com 2.798 ton no semestre, o Ibirapuera é onde qualquer melhoria de segregação tem maior impacto absoluto. Instalar pontos de coleta seletiva seca nos fluxos de maior concentração de visitantes — lanchonetes, sanitários, entradas — é o primeiro passo para converter rejeito evitável em reciclável. O parque já tem operação consolidada e transportadores ativos: a estrutura está pronta.</div>
+        <div style="font-family:'Libre Caslon Text',serif;font-size:15px;line-height:1.35;color:#222;margin-bottom:6px">Ampliando a recuperação de recicláveis no Ibirapuera</div>
+        <div style="font-size:12px;line-height:1.65;color:#666">Duas frentes em andamento para reduzir o rejeito e aumentar a valorização: mobilização de caçamba e operador dedicado para o vidro — aumentando a recuperação do material e reduzindo o volume que vai para rejeito; e novo parceiro de destinação dos recicláveis para ampliar a taxa de recuperação e valorização dos materiais coletados.</div>
       </div>
     </div>
 
@@ -1502,8 +1503,8 @@ new Chart(document.getElementById('chartIbiStatus'), {
     <div class="insight-card">
       <div style="font-size:12px;font-weight:600;color:#b35a00;flex-shrink:0;padding-top:3px;width:20px">03</div>
       <div style="flex:1">
-        <div style="font-family:'Libre Caslon Text',serif;font-size:15px;line-height:1.35;color:#222;margin-bottom:6px">Mapa de pontos de geração por parque</div>
-        <div style="font-size:12px;line-height:1.65;color:#666">Saber onde dentro de cada parque o resíduo é gerado — lanchonetes, banheiros, áreas de poda, pontos de coleta de coco — permite otimizar rotas de coleta interna e reduzir o tempo entre geração e acondicionamento. É o passo seguinte para uma operação de verdade zero desperdício.</div>
+        <div style="font-family:'Libre Caslon Text',serif;font-size:15px;line-height:1.35;color:#222;margin-bottom:6px">Mapeamento de lixeiras e equipamentos de estocagem</div>
+        <div style="font-size:12px;line-height:1.65;color:#666">Com o mapeamento das lixeiras e equipamentos de estocagem temporária em cada parque, a Musa pode propor novos modelos de acondicionamento que favorecem a separação correta dos resíduos na fonte — o passo mais direto para aumentar a taxa de reciclagem e reduzir o rejeito.</div>
       </div>
     </div>
 
