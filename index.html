@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>URBIA — Relatório Semestral Nov/25–Mai/26</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root {
+  --bg:           #F5F5F5;
+  --surface:      #FFFFFF;
+  --surface-2:    #F0EDEA;
+  --border:       rgba(0,0,0,0.06);
+  --border-mid:   rgba(0,0,0,0.12);
+  --text:         #222222;
+  --text-2:       #666666;
+  --text-3:       #999999;
+
+  --green:        #3D5836;
+  --green-mid:    #3D5836;
+  --green-light:  #e8f0e5;
+  --green-pale:   #f2f7ef;
+
+  --amber:        #b35a00;
+  --amber-light:  #fdf0e6;
+
+  --orange:       #FFBA86;
+  --orange-dark:  #b35a00;
+
+  /* destinação */
+  --comp:    #3D5836;
+  --copro:   #b35a00;
+  --recic:   #5577dd;
+  --bio:     #884D20;
+  --valor:   #6B5E8E;
+
+  --radius:  16px;
+  --radius-sm: 10px;
+  --serif: 'Libre Caslon Text', serif;
+  --sans: 'Inter', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--sans); background: var(--bg); color: var(--text); min-height: 100vh; }
+
+/* HEADER */
+.header {
+  background: #222222;
+  color: #fff;
+  padding: 24px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.header-left { display: flex; align-items: center; gap: 16px; }
+.logo-mark {
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+}
+.logo-mark svg { width: 36px; height: 36px; }
+.header-title {
+  font-family: var(--serif);
+  font-size: 17px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+.header-sub {
+  font-size: 11px;
+  color: rgba(255,255,255,0.5);
+  margin-top: 2px;
+  font-weight: 300;
+}
+.header-badge {
+  font-size: 11px;
+  color: rgba(255,255,255,0.6);
+  border: 1px solid rgba(255,255,255,0.2);
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+/* TABS */
+.tabs {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 40px;
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+}
+.tab {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-3);
+  padding: 0 20px;
+  height: 44px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: color .15s, border-color .15s;
+}
+.tab:hover { color: var(--text); }
+.tab.active { color: var(--orange-dark); font-weight: 600; border-bottom-color: var(--orange-dark); }
+
+/* CONTENT */
+.content { padding: 36px 40px; max-width: 1200px; margin: 0 auto; }
+
+/* SECTION LABEL */
+.section-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 14px;
+  letter-spacing: 0.10em;
+}
+
+/* KPI GRID */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 36px;
+}
+.kpi-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 22px 22px;
+  transition: box-shadow .15s, transform .15s;
+}
+.kpi-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  transform: translateY(-1px);
+}
+.kpi-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-3);
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.kpi-value {
+  font-family: var(--serif);
+  font-size: 36px;
+  font-weight: 400;
+  color: var(--text);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.kpi-unit {
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--text-3);
+  font-weight: 400;
+  margin-left: 2px;
+}
+.kpi-sub {
+  font-size: 12px;
+  color: var(--text-3);
+  margin-top: 8px;
+}
+.kpi-sub b { color: var(--text-2); font-weight: 500; }
+
+/* TIERS */
+.tiers-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 36px;
+}
+.tier-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px 20px;
+  position: relative;
+  transition: box-shadow .15s, transform .15s;
+}
+.tier-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  transform: translateY(-1px);
+}
+
+.tier-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+  background: var(--tier-bg, #f0f0f0);
+  color: var(--tier-color, #888);
+}
+.tier-avg {
+  font-size: 11px;
+  color: var(--text-3);
+  margin-top: 4px;
+  margin-bottom: 12px;
+}
+.tier-vol {
+  font-family: var(--serif);
+  font-size: 32px;
+  font-weight: 400;
+  color: var(--text);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+.tier-vol-unit {
+  font-family: var(--sans);
+  font-size: 12px;
+  color: var(--text-3);
+  margin-left: 2px;
+}
+.tier-park {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+}
+.tier-park:last-child { border-bottom: none; }
+.tier-park-name { font-size: 12px; color: var(--text-2); font-weight: 400; }
+.tier-park-vol { font-size: 12px; color: var(--text); font-weight: 500; font-family: var(--serif); }
+.tier-park-vol span { font-size: 10px; color: var(--text-3); font-family: var(--sans); font-weight:400 }
+
+/* INSIGHT CARD */
+.insight-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  border: 1px solid var(--border);
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  transition: transform .15s ease, box-shadow .15s ease;
+  cursor: default;
+}
+.insight-card:hover {
+  transform: scale(1.01);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* BAR TRACK */
+.bar-track {
+  height: 4px;
+  background: var(--surface-2);
+  border-radius: 2px;
+  margin-top: 6px;
+  overflow: hidden;
+}
+.bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: var(--green-mid);
+}
+
+/* TWO-COL */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 36px; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 36px; }
+
+/* CHART CARD */
+.chart-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  transition: box-shadow .15s, transform .15s;
+}
+.chart-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  transform: translateY(-1px);
+}
+.chart-card.full { grid-column: 1 / -1; }
+.chart-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.chart-sub {
+  font-size: 11px;
+  color: var(--text-3);
+  margin-bottom: 20px;
+}
+.chart-wrap { position: relative; }
+
+/* DONUT WRAPPER */
+.donut-wrap {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+.donut-canvas { flex-shrink: 0; }
+.donut-legend { flex: 1; }
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--border);
+}
+.legend-item:last-child { border-bottom: none; }
+.legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+.legend-name { font-size: 12px; color: var(--text-2); flex: 1; }
+.legend-val { font-size: 12px; color: var(--text); font-weight: 600; font-family: var(--serif); }
+.legend-pct { font-size: 10px; color: var(--text-3); margin-left: 4px; }
+
+/* MATERIAL TABLE */
+.mat-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 12px; }
+.mat-table th {
+  text-align: left; font-size: 10px; font-weight: 600;
+  letter-spacing: 0.10em; text-transform: uppercase;
+  color: var(--text-3); padding: 8px 12px 12px;
+  border-bottom: 1px solid var(--border-mid);
+}
+.mat-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); color: var(--text-2); font-size: 13px; }
+.mat-table td:first-child { color: var(--text); font-weight: 400; }
+.mat-table td:not(:first-child) { text-align: left; }
+.mat-table tr:last-child td { border-bottom: none; }
+.mat-table tbody tr:hover td { background: rgba(0,0,0,0.015); }
+.dest-chip {
+  display: inline-block;
+  font-size: 11px; font-weight: 400;
+  padding: 2px 8px; border-radius: 20px;
+  font-family: var(--sans);
+  letter-spacing: 0.01em;
+}
+
+@media (max-width: 900px) {
+  .kpi-grid { grid-template-columns: 1fr 1fr; }
+  .tiers-grid { grid-template-columns: 1fr 1fr; }
+  .two-col, .three-col { grid-template-columns: 1fr; }
+  .content { padding: 24px 20px; }
+  .header { padding: 20px; }
+  .tabs { padding: 0 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <div class="logo-mark">
+      <svg viewBox="0 0 364 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M81.08 69.94C51.23 100.14 32.8 141.64 32.8 187.47C32.8 233.29 51.23 274.79 81.08 304.99C33.69 287 0 241.17 0 187.47C0 133.77 33.69 87.93 81.08 69.94Z" fill="white" fill-opacity="0.9"/>
+        <path d="M361.49 148.01C350.99 106.87 324.9 69.7 285.62 46.1C246.35 22.5 201.26 16.92 160.03 26.95C199.84 -4.42 256.49 -9.7 302.52 17.97C348.55 45.62 370.49 98.1 361.49 148.01Z" fill="white" fill-opacity="0.9"/>
+        <path d="M361.49 231.13C350.99 272.27 324.9 309.45 285.62 333.05C246.35 356.65 201.26 362.22 160.03 352.2C199.84 383.56 256.49 388.84 302.52 361.18C348.55 333.52 370.49 281.04 361.49 231.14Z" fill="white" fill-opacity="0.9"/>
+      </svg>
+    </div>
+    <div>
+      <div class="header-title">URBIA Gestão de Parques</div>
+      <div class="header-sub">Relatório Semestral de Resíduos · Musa</div>
+    </div>
+  </div>
+  <div class="header-badge">Nov/2025 — Mai/2026</div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab active" onclick="showTab('visao-geral',this)">Visão Geral</button>
+  <button class="tab" onclick="showTab('ibirapuera',this)">Ibirapuera</button>
+  <button class="tab" onclick="showTab('impacto',this)">Impacto Ambiental</button>
+  <button class="tab" onclick="showTab('insights',this)">Insights</button>
+</div>
+
+<!-- CONTENT -->
+<div class="content" id="tab-visao-geral">
+
+  <!-- 1. KPIs -->
+  <div style="margin-bottom:28px">
+    <h1 style="font-family:'Libre Caslon Text',serif;font-size:24px;font-weight:400;color:#222;margin-bottom:4px">Visão Geral</h1>
+    <p style="font-size:13px;color:#666">Gestão de Resíduos · Nov/2025 — Abr/2026 · 7 parques</p>
+  </div>
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-label">Unidades Ativas</div>
+      <div class="kpi-value">7</div>
+      <div class="kpi-sub">parques · São Paulo</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Volume Gerenciado</div>
+      <div class="kpi-value">3.010</div>
+      <div class="kpi-sub">toneladas no período</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Coletas Realizadas</div>
+      <div class="kpi-value">992</div>
+      <div class="kpi-sub">de 1.041 planejadas</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Taxa de Sucesso</div>
+      <div class="kpi-value">91<span class="kpi-unit">%</span></div>
+      <div class="kpi-sub">98 falhas no período</div>
+    </div>
+  </div>
+
+  <!-- 2. TIERS -->
+  <div class="section-label">Tiers de Geração — Volume por Parque</div>
+  <div class="tiers-grid">
+
+    <!-- Tier 1 -->
+    <div class="tier-card" style="border-top:3px solid #FFBA86;">
+      <div class="tier-badge" style="background:#fff3e8;color:#b35a00;">Tier 1 — Muito Alto</div>
+      <div class="tier-vol">2.798<span class="tier-vol-unit">ton</span></div>
+      <div class="tier-avg">92,9% do volume total</div>
+      <div style="margin-top:14px">
+        <div class="tier-park">
+          <div class="tier-park-name">Ibirapuera</div>
+          <div class="tier-park-vol">2.798 <span>ton</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tier 2 -->
+    <div class="tier-card" style="border-top:3px solid #b35a00;">
+      <div class="tier-badge" style="background:#fff0e6;color:#b35a00;">Tier 2 — Alto</div>
+      <div class="tier-vol">136<span class="tier-vol-unit">ton</span></div>
+      <div class="tier-avg">4,5% do volume total</div>
+      <div style="margin-top:14px">
+        <div class="tier-park">
+          <div class="tier-park-name">Horto Florestal</div>
+          <div class="tier-park-vol">136 <span>ton</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tier 3 -->
+    <div class="tier-card" style="border-top:3px solid #5577dd;">
+      <div class="tier-badge" style="background:#e8edff;color:#3d5fcc;">Tier 3 — Médio</div>
+      <div class="tier-vol">62<span class="tier-vol-unit">ton</span></div>
+      <div class="tier-avg">2,1% do volume total</div>
+      <div style="margin-top:14px">
+        <div class="tier-park">
+          <div class="tier-park-name">Jacintho Alberto</div>
+          <div class="tier-park-vol">25,6 <span>ton</span></div>
+        </div>
+        <div class="tier-park">
+          <div class="tier-park-name">Eucaliptos</div>
+          <div class="tier-park-vol">20,5 <span>ton</span></div>
+        </div>
+        <div class="tier-park">
+          <div class="tier-park-name">Brig. Faria Lima</div>
+          <div class="tier-park-vol">16,3 <span>ton</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tier 4 -->
+    <div class="tier-card" style="border-top:3px solid #ccc;">
+      <div class="tier-badge" style="background:#f0f0f0;color:#888;">Tier 4 — Baixo</div>
+      <div class="tier-vol">14<span class="tier-vol-unit">ton</span></div>
+      <div class="tier-avg">0,5% do volume total</div>
+      <div style="margin-top:14px">
+        <div class="tier-park">
+          <div class="tier-park-name">Jd. Felicidade</div>
+          <div class="tier-park-vol">8,5 <span>ton</span></div>
+        </div>
+        <div class="tier-park">
+          <div class="tier-park-name">Lajeado</div>
+          <div class="tier-park-vol">5,5 <span>ton</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 3. SAZONALIDADE -->
+  <div class="section-label">Sazonalidade — Volume Mensal por Destinação</div>
+  <div class="chart-card full" style="margin-bottom:14px">
+    <div style="margin-bottom:16px">
+      <h2 style="font-family:'Libre Caslon Text',serif;font-size:18px;font-weight:400;color:#222;margin-bottom:4px;letter-spacing:-0.01em">Sazonalidade — volume mensal por destinação</h2>
+      <p style="font-size:13px;color:#666;line-height:1.5">Dez/25 e Jan/26 concentram o maior volume — pico de Compostagem com Cascas de Coco e Podas. Coprocessamento estável ao longo do semestre.</p>
+    </div>
+    <div style="background:#f9ede4;border-radius:10px;padding:16px 16px 8px;position:relative;">
+      <div style="position:relative;height:260px;width:100%"><canvas id="chartSazo"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Material detail table -->
+  <div class="chart-card full" style="margin-bottom:36px">
+    <div style="margin-bottom:20px">
+      <h2 style="font-family:'Libre Caslon Text',serif;font-size:18px;font-weight:400;color:#222;margin-bottom:4px">Detalhe por Resíduo</h2>
+      <p style="font-size:13px;color:#666">Volume total coletado no semestre · toneladas</p>
+    </div>
+    <table class="mat-table">
+      <thead>
+        <tr>
+          <th>Resíduo</th>
+          <th>Destinação</th>
+          <th>Toneladas</th>
+          <th>% do Total</th>
+        </tr>
+      </thead>
+      <tbody id="matTableBody"></tbody>
+    </table>
+  </div>
+
+  <!-- 4. COMPOSIÇÃO POR DESTINAÇÃO -->
+  <div class="section-label">Composição por Destinação — Semestre Completo</div>
+  <div class="chart-card full" style="margin-bottom:36px">
+    <div class="chart-title">Distribuição por destinação · Projeto Zero Aterro</div>
+    <div class="chart-sub">3.010 toneladas coletadas · Nov/25 — Abr/26 · cada resíduo tem destino rastreável</div>
+    <div id="treemap" style="background:#F4F2EE;border-radius:10px;padding:10px;margin-top:4px;position:relative;"></div>
+    <div id="treemap-legend" style="display:flex;gap:20px;flex-wrap:wrap;margin-top:14px;"></div>
+  </div>
+
+  <!-- 5. EFICIÊNCIA OPERACIONAL -->
+  <div class="section-label">Eficiência Operacional — Mês a Mês</div>
+  <div style="margin-bottom:36px">
+    <div class="chart-card">
+      <h2 style="font-family:'Libre Caslon Text',serif;font-size:18px;font-weight:400;color:#222;margin-bottom:4px">Total de Coletas — Recorrentes vs Sob Demanda</h2>
+      <p style="font-size:13px;color:#666;margin-bottom:16px">Volume mensal por tipo de coleta</p>
+      <div style="background:#f9ede4;border-radius:10px;padding:12px 12px 4px"><canvas id="chartTipo" height="100"></canvas></div>
+    <div style="display:flex;gap:20px;align-items:center;margin-top:14px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:6px">
+        <div style="width:12px;height:12px;border-radius:2px;background:#8aa5ff;flex-shrink:0"></div>
+        <span style="font-size:11px;color:#666">Recorrentes</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <div style="width:12px;height:12px;border-radius:2px;background:#FFBA86;flex-shrink:0"></div>
+        <span style="font-size:11px;color:#666">Sob Demanda</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <div style="width:20px;height:2px;background:#b35a00;flex-shrink:0;border-radius:2px"></div>
+        <span style="font-size:11px;color:#666">% Sucesso</span>
+      </div>
+    </div>
+
+    </div>
+  </div>
+
+</div><!-- /content -->
+
+<script>
+const MESES = ['Nov/25','Dez/25','Jan/26','Fev/26','Mar/26','Abr/26'];
+const MESES_KEYS = ['2025-11','2025-12','2026-01','2026-02','2026-03','2026-04'];
+
+// ── Chart defaults ──
+Chart.defaults.font.family = 'Inter';
+Chart.defaults.font.size = 11;
+Chart.defaults.color = '#888';
+
+// ── 1. SAZONALIDADE ──
+const sazoData = {
+  Compostagem:     [0.36, 396.71, 415.01, 291.25, 302.83, 445.76],
+  Coprocessamento: [265.85, 238.14, 107.28, 82.65, 132.68, 126.05],
+  Valorização:     [0, 0, 0.006, 0.004, 0.01, 59.72],
+  Biomassa:        [22.46, 40.04, 2.58, 0, 0, 0],
+  Reciclagem:      [15.04, 17.15, 7.25, 0.65, 5.08, 3.67],
+};
+const destColors = {
+  Compostagem:     '#FFBA86',
+  Coprocessamento: '#8aa5ff',
+  Valorização:     '#db9865',
+  Biomassa:        '#bacaff',
+  Reciclagem:      '#c6c6c6',
+};
+
+new Chart(document.getElementById('chartSazo'), {
+  type: 'line',
+  data: {
+    labels: MESES,
+    datasets: Object.entries(sazoData).map(([label, data]) => ({
+      label,
+      data,
+      borderColor: destColors[label],
+      backgroundColor: 'transparent',
+      pointBackgroundColor: destColors[label],
+      pointBorderColor: '#fff',
+      pointBorderWidth: 1.5,
+      pointRadius: 4,
+      pointHoverRadius: 6,
+      borderWidth: 2,
+      tension: 0.35,
+    }))
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'bottom',
+        align: 'start',
+        onClick: () => {},
+        labels: {
+          boxWidth: 12, boxHeight: 12, padding: 20, font:{size:12}, color: '#666',
+          generateLabels: function(chart) {
+            return chart.data.datasets.map((ds, i) => ({
+              text: ds.label,
+              fillStyle: ds.borderColor,
+              strokeStyle: ds.borderColor,
+              lineWidth: 0,
+              hidden: !chart.isDatasetVisible(i),
+              datasetIndex: i
+            }));
+          }
+        }
+      },
+      tooltip: {
+        backgroundColor: '#fff',
+        borderColor: 'rgba(0,0,0,0.08)',
+        borderWidth: 1,
+        titleColor: '#222',
+        bodyColor: '#666',
+        padding: 10,
+        callbacks: {
+          label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)} ton`
+        }
+      }
+    },
+    scales: {
+      x: { grid: { color: 'rgba(0,0,0,0.04)', drawTicks: false }, border: { display: false }, ticks: { font:{size:11}, padding: 6 } },
+      y: { grid: { color: 'rgba(0,0,0,0.04)', drawTicks: false }, border: { display: false }, ticks: { font:{size:11}, callback: v => v+'t', padding: 6 } }
+    }
+  }
+});
+
+// ── Material table ──
+const materiais = [
+  { nome: 'Cascas de Coco',              dest: 'Compostagem',     tons: 1116.58 },
+  { nome: 'Podas',                        dest: 'Compostagem',     tons: 687.86  },
+  { nome: 'Rejeito',                      dest: 'Coprocessamento', tons: 616.97  },
+  { nome: 'Limpeza Urbana Biodegradável', dest: 'Coprocessamento', tons: 257.89  },
+  { nome: 'RCC Classe II',                dest: 'Valorização',     tons: 91.73   },
+  { nome: 'Madeira - RCC',                dest: 'Biomassa',        tons: 65.08   },
+  { nome: 'Não Reciclável',               dest: 'Coprocessamento', tons: 74.77   },
+  { nome: 'Orgânico',                     dest: 'Compostagem',     tons: 47.48   },
+  { nome: 'Reciclável',                   dest: 'Reciclagem',      tons: 31.29   },
+  { nome: 'Sucata Metálica',              dest: 'Reciclagem',      tons: 17.55   },
+  { nome: 'RCC Classe I',                 dest: 'Coprocessamento', tons: 1.92    },
+  { nome: 'Embalagem Contaminada',        dest: 'Coprocessamento', tons: 0.94    },
+  { nome: 'Borracha (Pneus)',             dest: 'Coprocessamento', tons: 0.16    },
+];
+const total = 3010.2;
+const chipColors = {
+  Compostagem:     {bg:'#FFBA86',color:'#7a3d00'},
+  Coprocessamento: {bg:'#dce6ff',color:'#3d5fcc'},
+  Valorização:     {bg:'#db9865',color:'#fff'},
+  Biomassa:        {bg:'#bacaff',color:'#3d5fcc'},
+  Reciclagem:      {bg:'#e8e8e8',color:'#555'},
+};
+const tbody = document.getElementById('matTableBody');
+materiais.forEach(m => {
+  const c = chipColors[m.dest];
+  const pct = (m.tons/total*100).toFixed(1);
+  tbody.innerHTML += `<tr>
+    <td>${m.nome}</td>
+    <td><span class="dest-chip" style="background:${c.bg};color:${c.color}">${m.dest}</span></td>
+    <td>${m.tons.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})}</td>
+    <td>${pct}%</td>
+  </tr>`;
+});
+
+// ── Treemap ──
+const destData = [
+  { name: 'Compostagem',     tons: 1851.9, color: '#FFBA86', textColor: '#333', sub: 'Podas · Cascas de Coco · Orgânico' },
+  { name: 'Coprocessamento', tons: 952.7,  color: '#8aa5ff', textColor: '#333', sub: 'Rejeito · Não Reciclável · LUB · Borracha · Emb. Cont.' },
+  { name: 'Valorização',     tons: 91.7,   color: '#db9865', textColor: '#333', sub: 'RCC Classe II' },
+  { name: 'Biomassa',        tons: 65.1,   color: '#bacaff', textColor: '#333', sub: 'Madeira - RCC' },
+  { name: 'Reciclagem',      tons: 48.8,   color: '#c6c6c6', textColor: '#333', sub: 'Reciclável · Sucata Metálica' },
+];
+
+function buildTreemap() {
+  const container = document.getElementById('treemap');
+  const W = container.clientWidth - 20;
+  const totalTons = destData.reduce((s, d) => s + d.tons, 0);
+  const big = destData.slice(0, 2);   // Compostagem + Coprocessamento
+  const small = destData.slice(2);    // Valorização + Biomassa + Reciclagem
+  const gap = 8;
+  const topH = 220;
+  const botH = 90;
+
+  container.style.height = (topH + gap + botH) + 'px';
+  container.innerHTML = '';
+
+  // Top row — 2 grandes, proporcionais
+  const bigTotal = big.reduce((s, d) => s + d.tons, 0);
+  let x = 0;
+  big.forEach((d, i) => {
+    const pct = (d.tons / totalTons * 100).toFixed(1);
+    const w = Math.round((d.tons / bigTotal) * (W - gap));
+    const div = document.createElement('div');
+    div.style.cssText = `
+      position:absolute;
+      left:${x}px; top:0;
+      width:${w}px; height:${topH}px;
+      background:${d.color};
+      border-radius:12px;
+      overflow:hidden;
+      transition:filter .15s;
+      cursor:default;
+    `;
+    div.onmouseenter = () => div.style.filter = 'brightness(1.08)';
+    div.onmouseleave = () => div.style.filter = '';
+    div.innerHTML = `
+      <div style="position:absolute;bottom:14px;left:16px;right:16px;">
+        <div style="font-family:'Inter',sans-serif;font-size:14px;font-weight:700;color:#fff;margin-bottom:3px">${d.name}</div>
+        <div style="font-family:'Libre Caslon Text',serif;font-size:18px;color:rgba(255,255,255,0.95)">${d.tons.toLocaleString('pt-BR',{minimumFractionDigits:1})}t · ${pct}%</div>
+        <div style="font-family:'Inter',sans-serif;font-size:10px;color:rgba(255,255,255,0.6);margin-top:5px">${d.sub}</div>
+      </div>`;
+    div.title = `${d.name}: ${d.tons.toLocaleString('pt-BR',{minimumFractionDigits:1})} ton (${pct}%)`;
+    container.appendChild(div);
+    x += w + gap;
+  });
+
+  // Bottom row — 3 pequenos, largura igual
+  const smallW = Math.floor((W - gap * 2) / 3);
+  small.forEach((d, i) => {
+    const pct = (d.tons / totalTons * 100).toFixed(1);
+    const bx = i * (smallW + gap);
+    const div = document.createElement('div');
+    div.style.cssText = `
+      position:absolute;
+      left:${bx}px; top:${topH + gap}px;
+      width:${smallW}px; height:${botH}px;
+      background:${d.color};
+      border-radius:12px;
+      overflow:hidden;
+      transition:filter .15s;
+      cursor:default;
+      display:flex; align-items:flex-end;
+    `;
+    div.onmouseenter = () => div.style.filter = 'brightness(1.08)';
+    div.onmouseleave = () => div.style.filter = '';
+    div.innerHTML = `
+      <div style="padding:0 14px 12px;">
+        <div style="font-family:'Inter',sans-serif;font-size:12px;font-weight:700;color:#fff;margin-bottom:2px">${d.name}</div>
+        <div style="font-family:'Libre Caslon Text',serif;font-size:13px;color:rgba(255,255,255,0.9)">${d.tons.toLocaleString('pt-BR',{minimumFractionDigits:1})}t · ${pct}%</div>
+      </div>`;
+    div.title = `${d.name}: ${d.tons.toLocaleString('pt-BR',{minimumFractionDigits:1})} ton (${pct}%)`;
+    container.appendChild(div);
+  });
+}
+
+buildTreemap();
+window.addEventListener('resize', buildTreemap);
+
+// Impacto — treemap (clone dos dados principais)
+function buildTreemapImpacto() {
+  const container = document.getElementById('treemapImpacto');
+  if (!container) return;
+  const destDataI = [
+    { name: 'Compostagem',     tons: 1851.9, color: '#FFBA86', textColor: '#333', sub: 'Podas · Cascas de Coco · Orgânico' },
+    { name: 'Coprocessamento', tons: 952.7,  color: '#8aa5ff', textColor: '#333', sub: 'Rejeito · Não Reciclável · LUB · Borracha · Emb. Cont.' },
+    { name: 'Valorização',     tons: 91.7,   color: '#db9865', textColor: '#333', sub: 'RCC Classe II' },
+    { name: 'Biomassa',        tons: 65.1,   color: '#bacaff', textColor: '#333', sub: 'Madeira - RCC' },
+    { name: 'Reciclagem',      tons: 48.8,   color: '#c6c6c6', textColor: '#333', sub: 'Reciclável · Sucata Metálica' },
+  ];
+  const W = container.clientWidth - 20;
+  const totalTons = destDataI.reduce((s, d) => s + d.tons, 0);
+  const gap = 8, topH = 220, botH = 90;
+  container.style.height = (topH + gap + botH) + 'px';
+  container.innerHTML = '';
+  const big = destDataI.slice(0, 2), small = destDataI.slice(2);
+  const bigTotal = big.reduce((s, d) => s + d.tons, 0);
+  let x = 0;
+  big.forEach(d => {
+    const pct = (d.tons/totalTons*100).toFixed(1);
+    const w = Math.round((d.tons/bigTotal)*(W-gap));
+    const tc = d.textColor, tcMid = 'rgba(0,0,0,0.6)', tcSub = 'rgba(0,0,0,0.4)';
+    const div = document.createElement('div');
+    div.style.cssText = `position:absolute;left:${x}px;top:0;width:${w}px;height:${topH}px;background:${d.color};border-radius:12px;overflow:hidden;cursor:default;transition:filter .15s;`;
+    div.onmouseenter = () => div.style.filter = 'brightness(1.08)';
+    div.onmouseleave = () => div.style.filter = '';
+    div.innerHTML = `<div style="position:absolute;bottom:14px;left:16px;right:16px;"><div style="font-family:'Inter',sans-serif;font-size:14px;font-weight:700;color:${tc};margin-bottom:3px">${d.name}</div><div style="font-family:'Libre Caslon Text',serif;font-size:18px;color:${tcMid}">${d.tons.toLocaleString('pt-BR',{minimumFractionDigits:1})}t · ${pct}%</div><div style="font-family:'Inter',sans-serif;font-size:10px;color:${tcSub};margin-top:5px">${d.sub}</div></div>`;
+    container.appendChild(div);
+    x += w + gap;
+  });
+  const smallW = Math.floor((W - gap*2)/3);
+  small.forEach((d, i) => {
+    const pct = (d.tons/totalTons*100).toFixed(1);
+    const bx = i*(smallW+gap);
+    const stc = d.textColor, stcMid = 'rgba(0,0,0,0.6)';
+    const div = document.createElement('div');
+    div.style.cssText = `position:absolute;left:${bx}px;top:${topH+gap}px;width:${smallW}px;height:${botH}px;background:${d.color};border-radius:12px;overflow:hidden;cursor:default;display:flex;align-items:flex-end;transition:filter .15s;`;
+    div.onmouseenter = () => div.style.filter = 'brightness(1.08)';
+    div.onmouseleave = () => div.style.filter = '';
+    div.innerHTML = `<div style="padding:0 14px 12px;"><div style="font-family:'Inter',sans-serif;font-size:12px;font-weight:700;color:${stc};margin-bottom:2px">${d.name}</div><div style="font-family:'Libre Caslon Text',serif;font-size:13px;color:${stcMid}">${d.tons.toLocaleString('pt-BR',{minimumFractionDigits:1})}t · ${pct}%</div></div>`;
+    div.title = `${d.name}: ${d.tons.toLocaleString('pt-BR',{minimumFractionDigits:1})} ton (${pct}%)`;
+    container.appendChild(div);
+  });
+  const leg = document.getElementById('treemapImpactoLegend');
+  if (leg) {
+    leg.innerHTML = '';
+    destDataI.forEach(d => {
+      const pct = (d.tons/totalTons*100).toFixed(1);
+      leg.innerHTML += `<div style="display:flex;align-items:center;gap:7px"><div style="width:12px;height:12px;border-radius:2px;background:${d.color};flex-shrink:0;border:1px solid rgba(0,0,0,0.08)"></div><span style="font-size:11px;color:#444">${d.name}</span><span style="font-size:11px;color:#999">${d.tons.toLocaleString('pt-BR',{minimumFractionDigits:0})}t · ${pct}%</span></div>`;
+    });
+  }
+}
+buildTreemapImpacto();
+window.addEventListener('resize', buildTreemapImpacto);
+
+// CO2 mensal por material
+function initCo2Chart() {
+  const el = document.getElementById('chartCo2Mensal');
+  if (!el) return;
+  new Chart(el, {
+    type: 'line',
+    data: {
+      labels: ['Nov/25','Dez/25','Jan/26','Fev/26','Mar/26','Abr/26'],
+      datasets: [
+        { label: 'Cascas de Coco',  data: [0.0, 77.07, 100.32, 68.55, 95.71, 127.31],
+          borderColor: '#FFBA86', backgroundColor: 'transparent',
+          pointBackgroundColor: '#FFBA86', pointBorderColor: '#fff', pointBorderWidth: 1.5,
+          pointRadius: 4, borderWidth: 2, tension: 0.35 },
+        { label: 'Podas',            data: [0.0, 86.49, 70.13, 50.92, 27.39, 53.97],
+          borderColor: '#b35a00', backgroundColor: 'transparent',
+          pointBackgroundColor: '#b35a00', pointBorderColor: '#fff', pointBorderWidth: 1.5,
+          pointRadius: 4, borderWidth: 2, tension: 0.35 },
+        { label: 'Reciclável',       data: [28.0, 20.4, 5.6, 0.0, 6.07, 4.34],
+          borderColor: '#c6c6c6', backgroundColor: 'transparent',
+          pointBackgroundColor: '#c6c6c6', pointBorderColor: '#fff', pointBorderWidth: 1.5,
+          pointRadius: 4, borderWidth: 2, tension: 0.35 },
+        { label: 'Sucata Metálica',  data: [2.53, 12.74, 7.97, 1.14, 3.75, 2.74],
+          borderColor: '#8aa5ff', backgroundColor: 'transparent',
+          pointBackgroundColor: '#8aa5ff', pointBorderColor: '#fff', pointBorderWidth: 1.5,
+          pointRadius: 4, borderWidth: 2, tension: 0.35 },
+        { label: 'Madeira - RCC',    data: [18.42, 32.83, 2.12, 0.0, 0.0, 0.0],
+          borderColor: '#bacaff', backgroundColor: 'transparent',
+          pointBackgroundColor: '#bacaff', pointBorderColor: '#fff', pointBorderWidth: 1.5,
+          pointRadius: 4, borderWidth: 2, tension: 0.35 },
+        { label: 'Orgânico',         data: [0.15, 3.07, 3.86, 2.85, 4.08, 5.93],
+          borderColor: '#db9865', backgroundColor: 'transparent',
+          pointBackgroundColor: '#db9865', pointBorderColor: '#fff', pointBorderWidth: 1.5,
+          pointRadius: 4, borderWidth: 2, tension: 0.35 },
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#fff', borderColor: 'rgba(0,0,0,0.08)', borderWidth: 1,
+          titleColor: '#222', bodyColor: '#666', padding: 10,
+          callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y.toFixed(2)} tCO₂e` }
+        }
+      },
+      scales: {
+        x: { grid: { color: 'rgba(0,0,0,0.04)', drawTicks: false }, border: { display: false }, ticks: { font: { size: 11 }, padding: 6 } },
+        y: { grid: { color: 'rgba(0,0,0,0.04)', drawTicks: false }, border: { display: false }, ticks: { font: { size: 11 }, callback: v => v + 't', padding: 6 } }
+      }
+    }
+  });
+}
+
+// ── Tipo coleta (% empilhado + linha % sucesso com fill) ──
+const pctRecorr  = [0, 0, 0, 0, 9.2, 32.4];
+const pctSobDem  = [100, 100, 100, 100, 90.8, 67.6];
+const pctSucesso = [80.6, 91.0, 94.1, 97.9, 89.5, 92.6];
+new Chart(document.getElementById('chartTipo'), {
+  type: 'bar',
+  data: {
+    labels: MESES,
+    datasets: [
+      { label: 'Recorrentes', data: pctRecorr, backgroundColor: '#8aa5ff', borderRadius: 0, stack: 'a', order: 2 },
+      { label: 'Sob Demanda', data: pctSobDem, backgroundColor: '#FFBA86', borderRadius: {topLeft:4,topRight:4}, stack: 'a', order: 2 },
+      { label: '% Sucesso', data: pctSucesso, type: 'line', borderColor: '#b35a00',
+        backgroundColor: 'rgba(179,90,0,0.10)', fill: 'origin',
+        pointBackgroundColor: '#b35a00', pointBorderColor: '#fff', pointBorderWidth: 1.5,
+        pointRadius: 4, borderWidth: 2, tension: 0.3, order: 0 }
+    ]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { display: false }, // html legend below
+      tooltip: { mode: 'index', callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)}%` } }
+    },
+    scales: {
+      x: { stacked: true, grid: { display: false }, ticks: { font:{size:11} } },
+      y: { stacked: false, min: 0, max: 100, grid: { color: 'rgba(0,0,0,0.06)' }, border: { display: false },
+           ticks: { font:{size:11}, stepSize: 20, callback: v => v+'%' } }
+    }
+  }
+});
+
+
+</script>
+
+<div class="content" id="tab-ibirapuera" style="display:none">
+
+  <!-- HEADER IBIRAPUERA -->
+  <div style="margin-bottom:28px">
+    <h1 style="font-family:'Libre Caslon Text',serif;font-size:24px;font-weight:400;color:#222;margin-bottom:4px">Parque Ibirapuera</h1>
+    <p style="font-size:13px;color:#666">93% do volume total da operação · Nov/2025 — Abr/2026</p>
+  </div>
+
+  <!-- KPIs -->
+  <div class="kpi-grid" style="margin-bottom:36px">
+    <div class="kpi-card">
+      <div class="kpi-label">Volume Gerenciado</div>
+      <div class="kpi-value" style="color:#b35a00">2.798</div>
+      <div class="kpi-sub">toneladas no período</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Coletas Realizadas</div>
+      <div class="kpi-value" style="color:#b35a00">624</div>
+      <div class="kpi-sub">nov/25 — abr/26</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Transportadores Ativos</div>
+      <div class="kpi-value">3</div>
+      <div class="kpi-sub">em operação · abr/26</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Receptores Ativos</div>
+      <div class="kpi-value">8</div>
+      <div class="kpi-sub">em operação · abr/26</div>
+    </div>
+  </div>
+
+  <!-- HISTÓRICO DE SUCESSO -->
+  <div class="section-label">Qualidade Operacional</div>
+  <div class="chart-card full" style="margin-bottom:36px">
+    <div style="margin-bottom:16px">
+      <h2 style="font-family:'Libre Caslon Text',serif;font-size:18px;font-weight:400;color:#222;margin-bottom:4px">Histórico de sucesso de coletas</h2>
+      <p style="font-size:13px;color:#666;line-height:1.5">Zero falhas em Mar/26 e Abr/26 — resultado de otimização contínua da operação. Taxa de sucesso evoluiu de 90,5% para 100% em 5 meses.</p>
+    </div>
+    <div style="background:#f9ede4;border-radius:10px;padding:16px 16px 8px;">
+      <div style="position:relative;height:220px"><canvas id="chartIbiStatus"></canvas></div>
+    </div>
+    <div style="display:flex;gap:20px;flex-wrap:wrap;margin-top:14px">
+      <div style="display:flex;align-items:center;gap:6px"><div style="width:12px;height:12px;border-radius:2px;background:#8aa5ff"></div><span style="font-size:11px;color:#666">Sucesso</span></div>
+      <div style="display:flex;align-items:center;gap:6px"><div style="width:12px;height:12px;border-radius:2px;background:#FFBA86"></div><span style="font-size:11px;color:#666">Falha</span></div>
+      <div style="display:flex;align-items:center;gap:6px"><div style="width:20px;height:2px;background:#b35a00;border-radius:2px"></div><span style="font-size:11px;color:#666">% Sucesso</span></div>
+    </div>
+  </div>
+
+  <!-- COLETAS POR DIA DA SEMANA -->
+  <div class="chart-card full" style="margin-bottom:36px">
+    <div style="margin-bottom:16px">
+      <h2 style="font-family:'Libre Caslon Text',serif;font-size:18px;font-weight:400;color:#222;margin-bottom:4px">Coletas por dia da semana</h2>
+      <p style="font-size:13px;color:#666;line-height:1.5">Segunda lidera em Cascas de Coco (28 coletas). Quinta tem apenas 3 — padrão de agendamento diferenciado para esse material.</p>
+    </div>
+    <div style="display:flex;gap:16px;margin-bottom:16px;font-size:12px;color:#666">
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#8aa5ff"></span>Coletas realizadas</span>
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:4px;border-radius:2px;background:#FFBA86"></span>Cascas de Coco</span>
+    </div>
+    <div style="background:#f9ede4;border-radius:10px;padding:16px 20px" id="ibiDiaSemana"></div>
+  </div>
+
+  <!-- TOP 4 RESÍDUOS + MÊS A MÊS -->
+  <div class="section-label">Volume Mensal por Tipo de Resíduo</div>
+  <div class="kpi-grid" style="margin-bottom:20px">
+    <div class="kpi-card">
+      <div style="margin-bottom:10px"><span style="background:#fff0e6;color:#b35a00;font-size:10px;font-weight:500;padding:2px 8px;border-radius:20px">Top 1</span></div>
+      <div class="kpi-label">Cascas de Coco</div>
+      <div class="kpi-value" style="font-size:28px">1.105</div>
+      <div class="kpi-sub">ton · 39,5% do total</div>
+    </div>
+    <div class="kpi-card">
+      <div style="margin-bottom:10px"><span style="background:#fff0e6;color:#b35a00;font-size:10px;font-weight:500;padding:2px 8px;border-radius:20px">Top 2</span></div>
+      <div class="kpi-label">Podas</div>
+      <div class="kpi-value" style="font-size:28px">590</div>
+      <div class="kpi-sub">ton · 21,1% do total</div>
+    </div>
+    <div class="kpi-card">
+      <div style="margin-bottom:10px"><span style="background:#dce6ff;color:#3d5fcc;font-size:10px;font-weight:500;padding:2px 8px;border-radius:20px">Top 3</span></div>
+      <div class="kpi-label">Rejeito</div>
+      <div class="kpi-value" style="font-size:28px">599</div>
+      <div class="kpi-sub">ton · 21,4% do total</div>
+    </div>
+    <div class="kpi-card">
+      <div style="margin-bottom:10px"><span style="background:#dce6ff;color:#3d5fcc;font-size:10px;font-weight:500;padding:2px 8px;border-radius:20px">Top 4</span></div>
+      <div class="kpi-label">Limpeza Urbana Biodeg.</div>
+      <div class="kpi-value" style="font-size:28px">252</div>
+      <div class="kpi-sub">ton · 9,0% do total</div>
+    </div>
+  </div>
+  <div class="section-label" style="margin-top:0">Sazonalidade — Volume Mensal por Destinação</div>
+  <div class="chart-card full" style="margin-bottom:14px">
+    <div style="margin-bottom:16px">
+      <h2 style="font-family:'Libre Caslon Text',serif;font-size:18px;font-weight:400;color:#222;margin-bottom:4px">Volume mensal por tipo de resíduo</h2>
+      <p style="font-size:13px;color:#666;line-height:1.5">Cascas de Coco e Podas dominam o volume. Limpeza Urbana Biodegradável concentrada em nov/25. RCC Classe II aparece a partir de abr/26.</p>
+    </div>
+    <div id="ibiHeatmap" style="width:100%;overflow-x:auto"></div>
+    <div id="ibiHeatmapMonths"></div>
+  </div>
+
+
+
+  <!-- COMPOSIÇÃO DO VOLUME -->
+  <div class="section-label">Composição do Volume por Destinação</div>
+  <div class="chart-card full" style="margin-bottom:36px">
+    <div style="margin-bottom:20px">
+      <h2 style="font-family:'Libre Caslon Text',serif;font-size:18px;font-weight:400;color:#222;margin-bottom:4px">Composição do volume por destinação</h2>
+      <p style="font-size:13px;color:#666">Para cada tonelada reciclada, há <strong style="color:#b35a00">27,7 toneladas</strong> de rejeito. A rastreabilidade é o primeiro passo para ampliar a taxa de reciclagem.</p>
+    </div>
+    <div style="overflow:hidden;border-radius:10px;border:1px solid rgba(0,0,0,0.06)">
+      <table style="width:100%;border-collapse:collapse;font-size:13px">
+        <thead>
+          <tr>
+            <th style="font-size:10px;font-weight:600;color:#999;text-transform:uppercase;letter-spacing:.06em;text-align:left;padding:12px 16px;background:#F9EDE4;border-bottom:1px solid rgba(0,0,0,0.08);min-width:160px">Destinação</th>
+            <th style="font-size:10px;font-weight:600;color:#999;text-transform:uppercase;letter-spacing:.06em;text-align:left;padding:12px 16px;background:#F9EDE4;border-bottom:1px solid rgba(0,0,0,0.08)">Materiais</th>
+            <th style="font-size:10px;font-weight:600;color:#999;text-transform:uppercase;letter-spacing:.06em;text-align:left;padding:12px 16px;background:#F9EDE4;border-bottom:1px solid rgba(0,0,0,0.08)">Vol. coletado (ton)</th>
+            <th style="font-size:10px;font-weight:600;color:#999;text-transform:uppercase;letter-spacing:.06em;text-align:left;padding:12px 16px;background:#F9EDE4;border-bottom:1px solid rgba(0,0,0,0.08)">% do total</th>
+          </tr>
+        </thead>
+        <tbody id="ibiCompTable"></tbody>
+      </table>
+    </div>
+  </div>
+
+
+
+</div>
+
+
+
+
+
+<div class="content" id="tab-impacto" style="display:none">
+
+  <div style="margin-bottom:28px">
+    <h1 style="font-family:'Libre Caslon Text',serif;font-size:24px;font-weight:400;color:#222;margin-bottom:4px">Impacto Ambiental</h1>
+    <p style="font-size:13px;color:#666">7 parques · Nov/2025 — Abr/2026 · Projeto Zero Aterro</p>
+  </div>
+
+  <!-- KPIs DE IMPACTO -->
+  <div class="kpi-grid" style="margin-bottom:36px">
+    <div class="kpi-card">
+      <div class="kpi-label">CO₂ Evitado</div>
+      <div class="kpi-value" style="color:#b35a00">926,5</div>
+      <div class="kpi-sub">toneladas de CO₂e</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Destinação Circular</div>
+      <div class="kpi-value" style="color:#b35a00">100<span class="kpi-unit">%</span></div>
+      <div class="kpi-sub">zero envio a aterro</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Compostagem</div>
+      <div class="kpi-value">1.852</div>
+      <div class="kpi-sub">ton · Coco + Podas + Orgânico</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Reciclagem</div>
+      <div class="kpi-value">1,6<span class="kpi-unit">%</span></div>
+      <div class="kpi-sub">48,9 ton · potencial de crescimento</div>
+    </div>
+  </div>
+
+  <!-- CO₂ POR MATERIAL — moved above escala -->
+  <div class="section-label">CO₂ Evitado por Material</div>
+  <div class="chart-card full" style="margin-bottom:36px">
+    <div style="margin-bottom:16px">
+      <h2 style="font-family:'Libre Caslon Text',serif;font-size:18px;font-weight:400;color:#222;margin-bottom:4px">CO₂ evitado por tipo de resíduo</h2>
+      <p style="font-size:13px;color:#666;line-height:1.5">Cascas de Coco e Podas dominam o impacto — compostagem é o principal vetor de CO₂ evitado. Reciclável forte em nov/25.</p>
+    </div>
+    <div style="background:#f9ede4;border-radius:10px;padding:16px 16px 8px;margin-bottom:16px">
+      <div style="position:relative;height:240px;width:100%"><canvas id="chartCo2Mensal"></canvas></div>
+    </div>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:0">
+      <div style="display:flex;align-items:center;gap:6px"><div style="width:12px;height:12px;border-radius:2px;background:#FFBA86"></div><span style="font-size:11px;color:#666">Cascas de Coco</span></div>
+      <div style="display:flex;align-items:center;gap:6px"><div style="width:12px;height:12px;border-radius:2px;background:#b35a00"></div><span style="font-size:11px;color:#666">Podas</span></div>
+      <div style="display:flex;align-items:center;gap:6px"><div style="width:12px;height:12px;border-radius:2px;background:#c6c6c6"></div><span style="font-size:11px;color:#666">Reciclável</span></div>
+      <div style="display:flex;align-items:center;gap:6px"><div style="width:12px;height:12px;border-radius:2px;background:#8aa5ff"></div><span style="font-size:11px;color:#666">Sucata Metálica</span></div>
+      <div style="display:flex;align-items:center;gap:6px"><div style="width:12px;height:12px;border-radius:2px;background:#bacaff"></div><span style="font-size:11px;color:#666">Madeira - RCC</span></div>
+      <div style="display:flex;align-items:center;gap:6px"><div style="width:12px;height:12px;border-radius:2px;background:#db9865"></div><span style="font-size:11px;color:#666">Orgânico</span></div>
+    </div>
+    <div style="margin-top:20px">
+      <table class="mat-table">
+        <thead>
+          <tr>
+            <th>Resíduo</th>
+            <th>Vol. (ton)</th>
+            <th>Fator tCO₂e/ton</th>
+            <th>CO₂ evitado (tCO₂e)</th>
+            <th>% do total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="border-bottom:1px solid var(--border)">Cascas de Coco</td>
+            <td style="border-bottom:1px solid var(--border)">1.116,6</td>
+            <td style="border-bottom:1px solid var(--border)">0,420</td>
+            <td style="border-bottom:1px solid var(--border);font-weight:600">469,0</td>
+            <td style="border-bottom:1px solid var(--border)">
+              <div style="display:flex;align-items:center;gap:8px"><span style="min-width:36px">50.6%</span><div style="flex:1;background:rgba(0,0,0,0.06);border-radius:3px;height:5px;overflow:hidden"><div style="width:50.6%;height:100%;background:#FFBA86;border-radius:3px"></div></div></div>
+            </td>
+          </tr>          <tr>
+            <td style="border-bottom:1px solid var(--border)">Podas</td>
+            <td style="border-bottom:1px solid var(--border)">687,9</td>
+            <td style="border-bottom:1px solid var(--border)">0,420</td>
+            <td style="border-bottom:1px solid var(--border);font-weight:600">288,9</td>
+            <td style="border-bottom:1px solid var(--border)">
+              <div style="display:flex;align-items:center;gap:8px"><span style="min-width:36px">31.2%</span><div style="flex:1;background:rgba(0,0,0,0.06);border-radius:3px;height:5px;overflow:hidden"><div style="width:31.2%;height:100%;background:#b35a00;border-radius:3px"></div></div></div>
+            </td>
+          </tr>          <tr>
+            <td style="border-bottom:1px solid var(--border)">Reciclável</td>
+            <td style="border-bottom:1px solid var(--border)">31,3</td>
+            <td style="border-bottom:1px solid var(--border)">2,059</td>
+            <td style="border-bottom:1px solid var(--border);font-weight:600">64,4</td>
+            <td style="border-bottom:1px solid var(--border)">
+              <div style="display:flex;align-items:center;gap:8px"><span style="min-width:36px">7.0%</span><div style="flex:1;background:rgba(0,0,0,0.06);border-radius:3px;height:5px;overflow:hidden"><div style="width:7.0%;height:100%;background:#c6c6c6;border-radius:3px"></div></div></div>
+            </td>
+          </tr>          <tr>
+            <td style="border-bottom:1px solid var(--border)">Madeira - RCC</td>
+            <td style="border-bottom:1px solid var(--border)">65,1</td>
+            <td style="border-bottom:1px solid var(--border)">0,820</td>
+            <td style="border-bottom:1px solid var(--border);font-weight:600">53,4</td>
+            <td style="border-bottom:1px solid var(--border)">
+              <div style="display:flex;align-items:center;gap:8px"><span style="min-width:36px">5.8%</span><div style="flex:1;background:rgba(0,0,0,0.06);border-radius:3px;height:5px;overflow:hidden"><div style="width:5.8%;height:100%;background:#bacaff;border-radius:3px"></div></div></div>
+            </td>
+          </tr>          <tr>
+            <td style="border-bottom:1px solid var(--border)">Sucata Metálica</td>
+            <td style="border-bottom:1px solid var(--border)">17,6</td>
+            <td style="border-bottom:1px solid var(--border)">1,759</td>
+            <td style="border-bottom:1px solid var(--border);font-weight:600">30,9</td>
+            <td style="border-bottom:1px solid var(--border)">
+              <div style="display:flex;align-items:center;gap:8px"><span style="min-width:36px">3.3%</span><div style="flex:1;background:rgba(0,0,0,0.06);border-radius:3px;height:5px;overflow:hidden"><div style="width:3.3%;height:100%;background:#8aa5ff;border-radius:3px"></div></div></div>
+            </td>
+          </tr>          <tr>
+            <td style="border-bottom:1px solid var(--border)">Orgânico</td>
+            <td style="border-bottom:1px solid var(--border)">47,5</td>
+            <td style="border-bottom:1px solid var(--border)">0,420</td>
+            <td style="border-bottom:1px solid var(--border);font-weight:600">19,9</td>
+            <td style="border-bottom:1px solid var(--border)">
+              <div style="display:flex;align-items:center;gap:8px"><span style="min-width:36px">2.1%</span><div style="flex:1;background:rgba(0,0,0,0.06);border-radius:3px;height:5px;overflow:hidden"><div style="width:2.1%;height:100%;background:#db9865;border-radius:3px"></div></div></div>
+            </td>
+          </tr>          <tr style="background:rgba(0,0,0,0.025)">
+            <td style="font-weight:600">Total</td>
+            <td style="font-weight:600">1.966,0</td>
+            <td style="color:#999">—</td>
+            <td style="font-weight:600;color:#b35a00">926,5</td>
+            <td style="font-weight:600">100%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- OUTROS INDICADORES -->
+  <div class="section-label">Outros Indicadores de Impacto</div>
+  <div class="three-col" style="margin-bottom:36px">
+    <div class="chart-card" style="border-top:3px solid #b35a00;display:flex;flex-direction:column;gap:6px;padding:24px">
+      <div style="width:40px;height:40px;border-radius:10px;background:#fff0e6;display:flex;align-items:center;justify-content:center;margin-bottom:12px;flex-shrink:0"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6" stroke="#b35a00" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 11v4M14 11v4" stroke="#b35a00" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+      <div style="font-size:10px;font-weight:600;color:#999;text-transform:uppercase;letter-spacing:.08em">Espaço evitado em aterro</div>
+      <div style="font-family:'Libre Caslon Text',serif;font-size:36px;font-weight:400;color:#222;line-height:1;margin-top:6px">3.762 <span style="font-family:'Inter',sans-serif;font-size:14px;color:#999">m³</span></div>
+      <div style="font-size:12px;color:#666;line-height:1.6;margin-top:4px">3.010 ton desviadas de aterro<br>÷ densidade 0,8 ton/m³</div>
+      <div style="font-size:10px;color:#999;margin-top:auto;padding-top:10px">ref: ABRELPE — Panorama RSB 2023</div>
+    </div>
+    <div class="chart-card" style="border-top:3px solid #FFBA86;display:flex;flex-direction:column;gap:6px;padding:24px">
+      <div style="width:40px;height:40px;border-radius:10px;background:#fff0e6;display:flex;align-items:center;justify-content:center;margin-bottom:12px;flex-shrink:0"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8 2 5 6 5 10c0 3 1.5 5.5 4 7v3h6v-3c2.5-1.5 4-4 4-7 0-4-3-8-7-8z" stroke="#b35a00" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 17h6" stroke="#b35a00" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+      <div style="font-size:10px;font-weight:600;color:#999;text-transform:uppercase;letter-spacing:.08em">Composto orgânico produzido</div>
+      <div style="font-family:'Libre Caslon Text',serif;font-size:36px;font-weight:400;color:#222;line-height:1;margin-top:6px">556 <span style="font-family:'Inter',sans-serif;font-size:14px;color:#999">ton</span></div>
+      <div style="font-size:12px;color:#666;line-height:1.6;margin-top:4px">1.852 ton orgânico<br>× taxa de conversão 30%</div>
+      <div style="font-size:10px;color:#999;margin-top:auto;padding-top:10px">ref: EMBRAPA — Manual de Compostagem 2020</div>
+    </div>
+    <div class="chart-card" style="border-top:3px solid #8aa5ff;display:flex;flex-direction:column;gap:6px;padding:24px">
+      <div style="width:40px;height:40px;border-radius:10px;background:#e8edff;display:flex;align-items:center;justify-content:center;margin-bottom:12px;flex-shrink:0"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13 2L4 14h8l-1 8 9-12h-8l1-8z" stroke="#5577dd" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div style="font-size:10px;font-weight:600;color:#999;text-transform:uppercase;letter-spacing:.08em">Energia via coprocessamento</div>
+      <div style="font-family:'Libre Caslon Text',serif;font-size:36px;font-weight:400;color:#222;line-height:1;margin-top:6px">2.773 <span style="font-family:'Inter',sans-serif;font-size:14px;color:#999">MWh</span></div>
+      <div style="font-size:12px;color:#666;line-height:1.6;margin-top:4px">952,7 ton coprocessamento<br>× 2.500 kcal/kg (poder calorífico)</div>
+      <div style="font-size:10px;color:#999;margin-top:auto;padding-top:10px">ref: ABCP — Co-processamento em Cimenteiras</div>
+    </div>
+  </div>
+
+  <!-- ESCALA DO IMPACTO -->
+  <div class="section-label">Escala do Impacto</div>
+  <div class="three-col" style="margin-bottom:36px">
+    <div class="chart-card" style="border-top:3px solid #b35a00;display:flex;flex-direction:column;gap:8px;padding:28px 24px">
+      <div style="width:40px;height:40px;border-radius:10px;background:#fff0e6;display:flex;align-items:center;justify-content:center;margin-bottom:12px;flex-shrink:0"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="5" width="20" height="14" rx="2" stroke="#b35a00" stroke-width="1.8"/><line x1="12" y1="5" x2="12" y2="19" stroke="#b35a00" stroke-width="1.8"/><ellipse cx="12" cy="12" rx="4" ry="7" stroke="#b35a00" stroke-width="1.5"/></svg></div>
+      <div style="font-size:10px;font-weight:600;color:#999;text-transform:uppercase;letter-spacing:.08em">Resíduo desviado de aterro</div>
+      <div style="font-size:13px;color:#666;margin-top:4px">Equivale a cobrir</div>
+      <div style="font-family:'Libre Caslon Text',serif;font-size:42px;font-weight:400;color:#222;line-height:1">8</div>
+      <div style="font-size:14px;color:#444">campos de futebol</div>
+      <div style="font-size:10px;color:#999;margin-top:auto;padding-top:12px">3.010 ton · ~0,5 ton/m³ · 10cm altura · 7.140 m²/campo</div>
+    </div>
+    <div class="chart-card" style="border-top:3px solid #8aa5ff;display:flex;flex-direction:column;gap:8px;padding:28px 24px">
+      <div style="width:40px;height:40px;border-radius:10px;background:#fff3e8;display:flex;align-items:center;justify-content:center;margin-bottom:12px;flex-shrink:0"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 22v-6M8 10c0-3 1.5-6 4-8 2.5 2 4 5 4 8a4 4 0 01-8 0z" stroke="#FFBA86" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 14c-2-1-4-3-4-6 2-1 4.5 0 6 2" stroke="#FFBA86" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div style="font-size:10px;font-weight:600;color:#999;text-transform:uppercase;letter-spacing:.08em">Composto orgânico</div>
+      <div style="font-size:13px;color:#666;margin-top:4px">Suficiente para adubar</div>
+      <div style="font-family:'Libre Caslon Text',serif;font-size:42px;font-weight:400;color:#222;line-height:1">11.100</div>
+      <div style="font-size:14px;color:#444">árvores de parque</div>
+      <div style="font-size:10px;color:#999;margin-top:auto;padding-top:12px">556 ton ÷ 50 kg/árvore · ref. EMBRAPA Florestas</div>
+    </div>
+    <div class="chart-card" style="border-top:3px solid #FFBA86;display:flex;flex-direction:column;gap:8px;padding:28px 24px">
+      <div style="width:40px;height:40px;border-radius:10px;background:#fff3e8;display:flex;align-items:center;justify-content:center;margin-bottom:12px;flex-shrink:0"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L7 10h3l-2 5h3l-2 5h8l-2-5h3l-2-5h3L12 2z" stroke="#8aa5ff" stroke-width="1.8" stroke-linejoin="round"/></svg></div>
+      <div style="font-size:10px;font-weight:600;color:#999;text-transform:uppercase;letter-spacing:.08em">CO₂ evitado</div>
+      <div style="font-size:13px;color:#666;margin-top:4px">Equivale à absorção de</div>
+      <div style="font-family:'Libre Caslon Text',serif;font-size:42px;font-weight:400;color:#222;line-height:1">9.265</div>
+      <div style="font-size:14px;color:#444">árvores durante 1 ano</div>
+      <div style="font-size:10px;color:#999;margin-top:auto;padding-top:12px">926,5 tCO₂e · 0,10 t/árvore · ref. MMA</div>
+    </div>
+  </div>
+
+  <hr style="border:none;border-top:1px solid var(--border);margin:36px 0 24px">
+
+  <div style="background:#F0EDEA;border-radius:10px;padding:16px 20px;font-size:11px;color:#999;line-height:1.8;margin-bottom:36px">
+    <strong style="color:var(--text-2);font-family:'Inter',sans-serif;font-size:12px">Nota metodológica</strong><br>
+    CO₂ evitado: Reciclável (2,059 tCO₂e/ton) conforme Planton e Eu Reciclo. Sucata Metálica (1,759 tCO₂e/ton) conforme metodologia aço/ferro. Cascas de Coco, Podas e Orgânico (0,420 tCO₂e/ton) conforme WRAP Composting &amp; Food Waste, 2021. Madeira - RCC (0,820 tCO₂e/ton) conforme fator de desvio de aterro.<br>
+    Espaço em aterro: densidade de compactação 0,8 ton/m³ (ABRELPE, 2023). Composto orgânico: taxa de conversão 30% do peso úmido (EMBRAPA, 2020). Energia via coprocessamento: poder calorífico médio de 2.500 kcal/kg (ABCP). Adubação de árvores de parque: 50 kg/árvore (EMBRAPA Florestas). Absorção de CO₂ por árvore: 0,10 tCO₂/ano (MMA).
+  </div>
+
+</div>
+
+<script>
+function showTab(id, el) {
+  document.querySelectorAll('.content').forEach(d => d.style.display = 'none');
+  document.getElementById('tab-' + id).style.display = 'block';
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  if (id === 'impacto') {
+    buildTreemapImpacto();
+    if (!window._co2ChartInit) {
+      window._co2ChartInit = true;
+      initCo2Chart();
+    }
+  }
+  if (id === 'ibirapuera') {
+    buildIbiHeatmap();
+    buildIbiDiaSemana();
+  }
+}
+
+const MESES_IBI = ['Nov/25','Dez/25','Jan/26','Fev/26','Mar/26','Abr/26'];
+
+// Ibirapuera — coletas por dia da semana
+function buildIbiDiaSemana() {
+  const data = [
+    { dia: 'Seg', coletas: 107, coco: 28 },
+    { dia: 'Ter', coletas: 112, coco: 18 },
+    { dia: 'Qua', coletas: 93,  coco: 16 },
+    { dia: 'Qui', coletas: 81,  coco: 3  },
+    { dia: 'Sex', coletas: 100, coco: 10 },
+    { dia: 'Sáb', coletas: 79,  coco: 20 },
+    { dia: 'Dom', coletas: 52,  coco: 18 },
+  ];
+  const maxC = 112, maxCo = 28;
+  const c = document.getElementById('ibiDiaSemana');
+  data.forEach((d, i) => {
+    const pC  = (d.coletas / maxC  * 100).toFixed(1);
+    const pCo = (d.coco    / maxCo * 100).toFixed(1);
+    const border = i < data.length - 1 ? 'border-bottom:1px solid rgba(0,0,0,0.06);' : '';
+    c.innerHTML += `<div style="display:flex;align-items:center;gap:16px;padding:10px 8px;${border}border-radius:6px;transition:background .15s;cursor:default"
+      onmouseover="this.style.background='rgba(0,0,0,0.03)'"
+      onmouseout="this.style.background='transparent'">
+      <div style="width:32px;font-size:13px;font-weight:500;color:#222;flex-shrink:0">${d.dia}</div>
+      <div style="flex:1;display:flex;flex-direction:column;gap:5px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="flex:1;background:rgba(0,0,0,0.08);border-radius:3px;height:14px;overflow:hidden">
+            <div style="width:${pC}%;height:100%;background:#8aa5ff;border-radius:3px"></div>
+          </div>
+          <span style="font-size:11px;color:#888;min-width:28px;text-align:right">${d.coletas}</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="flex:1;background:rgba(0,0,0,0.05);border-radius:3px;height:6px;overflow:hidden">
+            <div style="width:${pCo}%;height:100%;background:#FFBA86;border-radius:3px"></div>
+          </div>
+          <span style="font-size:11px;color:#888;min-width:28px;text-align:right">${d.coco}</span>
+        </div>
+      </div>
+    </div>`;
+  });
+}
+
+// Ibirapuera — heatmap por resíduo
+function buildIbiHeatmap() {
+  const ibiHeatData = {
+    'Cascas de Coco': [0, 182.19, 236.85, 160.58, 225.86, 299.22],
+    'Rejeito': [36.9, 135.87, 100.25, 76.91, 127.56, 121.42],
+    'Podas': [0, 203.33, 146.13, 102.52, 39.38, 98.31],
+    'Limpeza Urbana Biodeg.': [150.52, 89.72, 4.65, 2.72, 2.46, 1.75],
+    'RCC (Class II)': [0, 0, 0.01, 0, 0.01, 59.72],
+    'Não Reciclável': [70.2, 4.57, 0, 0, 0, 0],
+    'Madeira - RCC': [17.8, 24.13, 0, 0, 0, 0],
+    'Reciclável': [3.88, 9.91, 2.72, 0, 2.95, 2.11],
+    'Sucata Metálica': [1.44, 7.24, 4.53, 0.65, 2.13, 1.56],
+    'Orgânico': [0.36, 2.05, 0, 0, 0, 2.07],
+    'Embalagem Contaminada': [0.16, 0, 0, 0, 0, 0.78],
+    'Borracha (Pneus)': [0.16, 0, 0, 0, 0, 0],
+  };
+  const mesesIbi = ['Nov/25','Dez/25','Jan/26','Fev/26','Mar/26','Abr/26'];
+  const allVals = Object.values(ibiHeatData).flat();
+  const maxVal = Math.max(...allVals);
+  const labelW = 170;
+  const cellH = 40;
+
+  function getColor(val) {
+    if (val === 0) return '#F5F5F5';
+    const t = Math.pow(val / maxVal, 0.45);
+    if (t < 0.4) {
+      const s = t / 0.4;
+      const r = Math.round(224 - (224-138)*s), g = Math.round(232 - (232-165)*s), b = 255;
+      return `rgb(${r},${g},${b})`;
+    } else {
+      const s = (t-0.4)/0.6;
+      const stops = [[255,229,210],[255,215,185],[255,201,159],[255,186,134],[219,152,101]];
+      const idx = Math.min(Math.floor(s*(stops.length-1)), stops.length-2);
+      const frac = s*(stops.length-1)-idx;
+      const c0=stops[idx], c1=stops[idx+1];
+      return `rgb(${Math.round(c0[0]+(c1[0]-c0[0])*frac)},${Math.round(c0[1]+(c1[1]-c0[1])*frac)},${Math.round(c0[2]+(c1[2]-c0[2])*frac)})`;
+    }
+  }
+  function textColor(val) { return Math.pow(val/maxVal,0.45) > 0.75 ? '#fff' : '#222'; }
+
+  // Month header
+  const monthRow = `<div style="display:table;width:100%;table-layout:fixed;font-size:11px;color:#888;font-family:'Inter',sans-serif;padding:4px 0">
+    <div style="display:table-row">
+      <div style="display:table-cell;width:${labelW}px"></div>
+      ${mesesIbi.map(m=>`<div style="display:table-cell;text-align:center">${m}</div>`).join('')}
+    </div>
+  </div>`;
+  document.getElementById('ibiHeatmapMonths').innerHTML = monthRow;
+
+  let html = `<table style="width:100%;border-collapse:collapse;font-size:12px;table-layout:fixed"><tbody>`;
+  Object.entries(ibiHeatData).forEach(([res, vals]) => {
+    html += `<tr><td style="padding:8px;font-size:12px;font-weight:500;color:#222;white-space:nowrap;width:${labelW}px">${res}</td>
+      ${vals.map(val => {
+        const bg = getColor(val), tc = textColor(val);
+        const display = val === 0 ? '—' : val.toFixed(1).replace('.',',')+'t';
+        return `<td style="padding:4px 3px;text-align:center;height:${cellH}px"><div style="background:${bg};color:${tc};border-radius:4px;padding:4px 2px;font-size:11px;height:100%;display:flex;align-items:center;justify-content:center;cursor:default;transition:transform .15s,box-shadow .15s" onmouseover="this.style.transform='scale(1.08)';this.style.boxShadow='0 3px 8px rgba(0,0,0,0.18)';this.style.position='relative';this.style.zIndex='10'" onmouseout="this.style.transform='';this.style.boxShadow='';this.style.position='';this.style.zIndex=''">${display}</div></td>`;
+      }).join('')}
+    </tr>`;
+  });
+  html += `</tbody></table>`;
+  document.getElementById('ibiHeatmap').innerHTML = html;
+}
+
+// Composição volume por destinação — agrupado por destinação
+(function() {
+  const rows = [
+    { dest:'Compostagem',     materiais:'Cascas de Coco · Podas · Orgânico', tons:1698.9, chipBg:'#fff0e6', chipColor:'#b35a00', barColor:'#FFBA86' },
+    { dest:'Coprocessamento', materiais:'Rejeito · Limpeza Urbana Biodeg. · Não Reciclável · Emb. Cont. · Borracha', tons:926.6, chipBg:'#dce6ff', chipColor:'#3d5fcc', barColor:'#8aa5ff' },
+    { dest:'Valorização',     materiais:'RCC Classe II', tons:91.7, chipBg:'#f5ede4', chipColor:'#8a5530', barColor:'#db9865' },
+    { dest:'Biomassa',        materiais:'Madeira - RCC', tons:41.9, chipBg:'#eeeaff', chipColor:'#5a50b0', barColor:'#bacaff' },
+    { dest:'Reciclagem',      materiais:'Reciclável · Sucata Metálica', tons:39.2, chipBg:'#f0f0f0', chipColor:'#555', barColor:'#c6c6c6' },
+  ];
+  const total = rows.reduce((s,r) => s+r.tons, 0);
+  const tbody = document.getElementById('ibiCompTable');
+  rows.forEach((r,i) => {
+    const pct = (r.tons/total*100).toFixed(1);
+    const border = i < rows.length-1 ? '1px solid rgba(0,0,0,0.06)' : 'none';
+    tbody.innerHTML += `<tr>
+      <td style="padding:12px 16px;border-bottom:${border};min-width:160px">
+        <span style="background:${r.chipBg};color:${r.chipColor};font-size:11px;font-weight:400;padding:2px 10px;border-radius:20px;white-space:nowrap">${r.dest}</span>
+      </td>
+      <td style="padding:12px 16px;border-bottom:${border};font-size:12px;color:#888">${r.materiais}</td>
+      <td style="padding:12px 16px;border-bottom:${border};font-size:12px;color:#444;white-space:nowrap">${r.tons.toLocaleString('pt-BR',{minimumFractionDigits:1})}</td>
+      <td style="padding:12px 16px;border-bottom:${border};font-size:12px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="min-width:32px;color:#666">${pct}%</span>
+          <div style="flex:1;background:rgba(0,0,0,0.06);border-radius:3px;height:5px;overflow:hidden">
+            <div style="width:${pct}%;height:100%;background:${r.barColor};border-radius:3px"></div>
+          </div>
+        </div>
+      </td>
+    </tr>`;
+  });
+  tbody.innerHTML += `<tr style="background:rgba(0,0,0,0.025)">
+    <td style="padding:12px 16px;color:#222;font-weight:600;font-size:13px">Total</td>
+    <td style="padding:12px 16px"></td>
+    <td style="padding:12px 16px;font-size:12px;font-weight:600;color:#222">${total.toLocaleString('pt-BR',{minimumFractionDigits:1})}</td>
+    <td style="padding:12px 16px;font-size:12px;font-weight:600;color:#222">100%</td>
+  </tr>`;
+})();
+
+// Status histórico
+new Chart(document.getElementById('chartIbiStatus'), {
+  type:'bar',
+  data:{
+    labels: MESES_IBI,
+    datasets:[
+      { label:'Sucesso', data:[76,160,109,66,96,117], backgroundColor:'#8aa5ff', stack:'a', order:2 },
+      { label:'Falha',   data:[8,8,1,3,0,0], backgroundColor:'#FFBA86', stack:'a', borderRadius:{topLeft:4,topRight:4}, order:2 },
+      { label:'% Sucesso', data:[90.5,95.2,99.1,95.7,100,100], type:'line', borderColor:'#b35a00', backgroundColor:'rgba(179,90,0,0.08)', fill:'origin',
+        pointBackgroundColor:'#b35a00', pointBorderColor:'#fff', pointBorderWidth:1.5, pointRadius:4, borderWidth:2, tension:0.3, order:0, yAxisID:'y2' }
+    ]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{
+      legend:{display:false},
+      tooltip:{mode:'index', backgroundColor:'#fff', borderColor:'rgba(0,0,0,0.08)', borderWidth:1, titleColor:'#222', bodyColor:'#666', padding:10,
+        callbacks:{ label: ctx => ctx.dataset.label === '% Sucesso' ? ` % Sucesso: ${ctx.parsed.y}%` : ` ${ctx.dataset.label}: ${ctx.parsed.y}` }
+      }
+    },
+    scales:{
+      x:{ stacked:true, grid:{display:false}, ticks:{font:{size:11}} },
+      y:{ stacked:true, grid:{color:'rgba(0,0,0,0.06)'}, border:{display:false}, ticks:{font:{size:11}} },
+      y2:{ position:'right', min:70, max:105, grid:{display:false}, border:{display:false}, ticks:{font:{size:11}, callback:v=>v+'%'} }
+    }
+  }
+});
+</script>
+
+
+<div class="content" id="tab-insights" style="display:none">
+
+  <div style="margin-bottom:28px">
+    <h1 style="font-family:'Libre Caslon Text',serif;font-size:24px;font-weight:400;color:#222;margin-bottom:4px">Insights</h1>
+    <p style="font-size:13px;color:#666">Principais padrões identificados · Nov/2025 — Abr/2026 · 7 parques</p>
+  </div>
+
+  <!-- Card preto de destaque -->
+  <div style="background:#222222;border-radius:var(--radius);padding:40px 48px;margin-bottom:40px">
+    <div style="font-size:11px;font-weight:600;letter-spacing:.1em;color:#FFBA86;margin-bottom:20px;text-transform:uppercase">● Resultado do semestre</div>
+    <div style="font-family:'Libre Caslon Text',serif;font-size:32px;line-height:1.25;color:#fff;margin-bottom:16px">Em 6 meses, os 7 parques da Urbia desviaram 3.010 toneladas de aterro — e zero voltou como rejeito sem destinação.</div>
+    <div style="font-size:14px;line-height:1.7;color:rgba(255,255,255,0.6);max-width:680px">A rastreabilidade está consolidada. O próximo passo é ampliar a taxa de reciclagem — hoje em 1,6% — e acelerar a transição de coletas sob demanda para recorrentes nos parques fora do Ibirapuera.</div>
+  </div>
+
+  <!-- O que os dados revelam -->
+  <div style="font-size:11px;font-weight:600;letter-spacing:.1em;color:#b35a00;margin-bottom:16px;text-transform:uppercase">● O que os dados revelam</div>
+  <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:40px">
+
+    <div class="insight-card">
+      <div style="font-size:12px;font-weight:600;color:#b35a00;flex-shrink:0;padding-top:3px;width:20px">01</div>
+      <div style="flex:1">
+        <div style="font-family:'Libre Caslon Text',serif;font-size:15px;line-height:1.35;color:#222;margin-bottom:6px">Ibirapuera é 93% da operação — e está ficando melhor</div>
+        <div style="font-size:12px;line-height:1.65;color:#666">O parque passou de 90,5% de taxa de sucesso em nov/25 para 100% em mar e abr/26, com zero falhas nos dois últimos meses. Essa evolução não é acidental — é reflexo de ajuste operacional. Cascas de Coco e Podas juntas representam 60% do volume, e a operação de segunda-feira concentra a maior parte dessas coletas.</div>
+      </div>
+    </div>
+
+    <div class="insight-card">
+      <div style="font-size:12px;font-weight:600;color:#b35a00;flex-shrink:0;padding-top:3px;width:20px">02</div>
+      <div style="flex:1">
+        <div style="font-family:'Libre Caslon Text',serif;font-size:15px;line-height:1.35;color:#222;margin-bottom:6px">A virada de sob demanda para recorrente começou — mas só no Ibirapuera</div>
+        <div style="font-size:12px;line-height:1.65;color:#666">Em abr/26, 32% das coletas do Ibirapuera já são recorrentes. Os demais 6 parques ainda operam 100% sob demanda. A previsibilidade de coletas recorrentes reduz falhas, facilita o planejamento dos transportadores e tende a baixar o custo por coleta. Expandir esse modelo para Horto Florestal é a alavanca mais imediata.</div>
+      </div>
+    </div>
+
+    <div class="insight-card">
+      <div style="font-size:12px;font-weight:600;color:#b35a00;flex-shrink:0;padding-top:3px;width:20px">03</div>
+      <div style="flex:1">
+        <div style="font-family:'Libre Caslon Text',serif;font-size:15px;line-height:1.35;color:#222;margin-bottom:6px">Waste not found concentrado no Horto — sinal de desalinhamento de agendamento</div>
+        <div style="font-size:12px;line-height:1.65;color:#666">41 das 98 falhas do semestre têm como motivo "resíduo não encontrado no local". Esse padrão, concentrado no Horto Florestal, indica que a geração do parque e o agendamento de coleta não estão sincronizados. Não é falha do transportador — é um problema de planejamento que pode ser resolvido com ajuste de frequência e horário.</div>
+      </div>
+    </div>
+
+    <div class="insight-card">
+      <div style="font-size:12px;font-weight:600;color:#b35a00;flex-shrink:0;padding-top:3px;width:20px">04</div>
+      <div style="flex:1">
+        <div style="font-family:'Libre Caslon Text',serif;font-size:15px;line-height:1.35;color:#222;margin-bottom:6px">Reciclagem em 1,6% — oportunidade clara de ampliar destinação nobre</div>
+        <div style="font-size:12px;line-height:1.65;color:#666">Apenas 48,9 toneladas foram recicladas no semestre, contra 952,7 de coprocessamento. Parte desse coprocessamento — especialmente Não Reciclável e Embalagem Contaminada — poderia migrar para reciclagem com segregação adequada na fonte. Em parques públicos com alto fluxo de visitantes, a educação ambiental in loco é o principal motor dessa mudança.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Ações prioritárias -->
+  <div style="font-size:11px;font-weight:600;letter-spacing:.1em;color:#b35a00;margin-bottom:16px;text-transform:uppercase">● Ações prioritárias</div>
+  <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:40px">
+
+    <div class="insight-card">
+      <div style="font-size:12px;font-weight:600;color:#b35a00;flex-shrink:0;padding-top:3px;width:20px">01</div>
+      <div style="flex:1">
+        <div style="font-family:'Libre Caslon Text',serif;font-size:15px;line-height:1.35;color:#222;margin-bottom:6px">Sincronizar agendamento de coleta com geração no Horto Florestal</div>
+        <div style="font-size:12px;line-height:1.65;color:#666">O diagnóstico é claro: as coletas chegam quando o resíduo ainda não foi gerado ou já foi recolhido por outro meio. Recomendamos mapear os picos de geração por dia da semana no Horto — assim como fizemos no Ibirapuera — e ajustar os horários de agendamento. A meta é reduzir "waste not found" para zero em 90 dias.</div>
+      </div>
+    </div>
+
+    <div class="insight-card">
+      <div style="font-size:12px;font-weight:600;color:#b35a00;flex-shrink:0;padding-top:3px;width:20px">02</div>
+      <div style="flex:1">
+        <div style="font-family:'Libre Caslon Text',serif;font-size:15px;line-height:1.35;color:#222;margin-bottom:6px">Expandir coletas recorrentes para Horto Florestal e Jacintho Alberto</div>
+        <div style="font-size:12px;line-height:1.65;color:#666">Com 136 ton no semestre, o Horto Florestal tem volume suficiente para justificar frequência recorrente. Jacintho Alberto, com 25,6 ton, também é candidato. Coletas recorrentes reduzem o risco de "waste not found", facilitam o planejamento dos transportadores e tendem a diminuir custo operacional por tonelada.</div>
+      </div>
+    </div>
+
+    <div class="insight-card">
+      <div style="font-size:12px;font-weight:600;color:#b35a00;flex-shrink:0;padding-top:3px;width:20px">03</div>
+      <div style="flex:1">
+        <div style="font-family:'Libre Caslon Text',serif;font-size:15px;line-height:1.35;color:#222;margin-bottom:6px">Ativar programa de segregação na fonte nos parques Tier 3 e 4</div>
+        <div style="font-size:12px;line-height:1.65;color:#666">Jacintho Alberto, Eucaliptos, Brigadeiro Faria Lima, Jd. Felicidade e Lajeado somam 76 ton no semestre — volume pequeno, mas com alto potencial de melhoria de composição. Com sinalização adequada e coleta seletiva ativa, esses parques podem sair de 0% para 15%+ de reciclagem e servir como modelo para os parques maiores.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Para avançar juntos -->
+  <div style="font-size:11px;font-weight:600;letter-spacing:.1em;color:#b35a00;margin-bottom:4px;text-transform:uppercase">● Para avançar juntos</div>
+  <div style="font-size:13px;color:#666;margin-bottom:16px">Dados que a Urbia pode compartilhar para enriquecer as próximas análises.</div>
+  <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:40px">
+
+    <div class="insight-card">
+      <div style="font-size:12px;font-weight:600;color:#b35a00;flex-shrink:0;padding-top:3px;width:20px">01</div>
+      <div style="flex:1">
+        <div style="font-family:'Libre Caslon Text',serif;font-size:15px;line-height:1.35;color:#222;margin-bottom:6px">Fluxo de visitantes por parque</div>
+        <div style="font-size:12px;line-height:1.65;color:#666">Com o número de visitantes por mês e o volume de resíduo gerado, conseguimos calcular a taxa de geração per capita por parque. É o dado mais direto para entender se o volume está proporcional ao uso — e para definir metas de redução baseadas em público.</div>
+      </div>
+    </div>
+
+    <div class="insight-card">
+      <div style="font-size:12px;font-weight:600;color:#b35a00;flex-shrink:0;padding-top:3px;width:20px">02</div>
+      <div style="flex:1">
+        <div style="font-family:'Libre Caslon Text',serif;font-size:15px;line-height:1.35;color:#222;margin-bottom:6px">Calendário de eventos por parque</div>
+        <div style="font-size:12px;line-height:1.65;color:#666">Eventos no Ibirapuera geram picos de resíduo previsíveis. Cruzar o calendário de eventos com o histórico de coletas permite antecipar demanda, pré-alocar transportadores e reduzir falhas por volume inesperado. No Horto Florestal, isso pode ser especialmente útil para resolver o problema de "waste not found".</div>
+      </div>
+    </div>
+
+    <div class="insight-card">
+      <div style="font-size:12px;font-weight:600;color:#b35a00;flex-shrink:0;padding-top:3px;width:20px">03</div>
+      <div style="flex:1">
+        <div style="font-family:'Libre Caslon Text',serif;font-size:15px;line-height:1.35;color:#222;margin-bottom:6px">Mapa de pontos de geração por parque</div>
+        <div style="font-size:12px;line-height:1.65;color:#666">Saber onde dentro de cada parque o resíduo é gerado — lanchonetes, banheiros, áreas de poda, pontos de coleta de coco — permite otimizar rotas de coleta interna e reduzir o tempo entre geração e acondicionamento. É o passo seguinte para uma operação de verdade zero desperdício.</div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>
