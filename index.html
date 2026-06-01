@@ -751,6 +751,7 @@ function buildTreemap() {
 
 buildTreemap();
 window.addEventListener('resize', buildTreemap);
+setTimeout(buildTreemap, 100);
 
 // Impacto — treemap (clone dos dados principais)
 function buildTreemapImpacto() {
@@ -1219,6 +1220,9 @@ function showTab(id, el) {
   document.getElementById('tab-' + id).style.display = 'block';
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   el.classList.add('active');
+  if (id === 'visao-geral') {
+    buildTreemap();
+  }
   if (id === 'impacto') {
     buildTreemapImpacto();
     if (!window._co2ChartInit) {
